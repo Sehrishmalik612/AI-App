@@ -4,7 +4,7 @@ import time
 
 # --- 1. SETTING UP GOOGLE GEMINI ---
 # Yahan apni API Key paste karein
-GOOGLE_API_KEY = "AIzaSyBlw3vBbEZZTweuy7WQQAa2_s12JVMq5R0"
+GOOGLE_API_KEY = "AIzaSyB0yJdWLBLpx6L8PfOjKvXBSvPNruiQB3o"
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
