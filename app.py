@@ -1,68 +1,112 @@
 import streamlit as st
+import google.generativeai as genai
 import time
 
-# --- PAGE CONFIG ---
-st.set_page_config(page_title="𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐒𝐦𝐚𝐫𝐭 𝐀𝐈", page_icon="⚡", layout="wide")
+# --- 1. SETTING UP GOOGLE GEMINI ---
+# Yahan apni API Key paste karein
+GOOGLE_API_KEY = "AIzaSyBlw3vBbEZZTweuy7WQQAa2_s12JVMq5R0"
+genai.configure(api_key=GOOGLE_API_KEY)
+model = genai.GenerativeModel('gemini-pro')
 
-# --- CUSTOM CSS (Black Theme & White Text Fix) ---
+# --- 2. PAGE CONFIG ---
+st.set_page_config(page_title="𝐄𝐦𝐨𝐨 𝐀𝐈 𝐀𝐠𝐞𝐧𝐭 - Smart Assistant", page_icon="⚡", layout="wide")
+
+# --- 3. ADVANCED CSS (Animated Navy Blue Background) ---
 st.markdown("""
     <style>
+    /* Animated Background */
     .stApp {
-        background-color: #0E1117;
+        background: linear-gradient(-45deg, #0a192f, #112240, #1a365d, #0d1b2a);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        color: white;
     }
-    /* Force all text to be White */
-    .stMarkdown, p, h1, h2, h3, span, label, div {
-        color: #FFFFFF !important;
+
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
-    /* Chat Bubbles Background */
+
+    /* Floating Bubbles Effect */
+    .bubbles {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -1; overflow: hidden;
+    }
+    .bubble {
+        position: absolute; bottom: -100px;
+        width: 40px; height: 40px; background: rgba(100, 255, 218, 0.1);
+        border-radius: 50%; opacity: 0.5;
+        animation: rise 10s infinite ease-in;
+    }
+    @keyframes rise {
+        0% { bottom: -100px; transform: translateX(0); }
+        50% { transform: translateX(100px); }
+        100% { bottom: 1080px; transform: translateX(-200px); }
+    }
+
+    /* Glassmorphism Chat Bubbles */
     .stChatMessage {
-        background-color: #262730 !important;
-        border-radius: 15px;
-        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        margin-bottom: 15px;
+        color: white !important;
     }
-    /* Sidebar styling */
+
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #1A1C24;
-        border-right: 2px solid #ff4b4b;
+        background-color: rgba(10, 25, 47, 0.95);
+        border-right: 1px solid rgba(100, 255, 218, 0.3);
     }
-    /* Input box text color */
-    .stChatInput textarea {
-        color: #FFFFFF !important;
+    
+    .stMarkdown, p, h1, h2, h3, span, label {
+        color: #ccd6f6 !important;
     }
     </style>
+    
+    <div class="bubbles">
+        <div class="bubble" style="left: 10%; animation-duration: 8s;"></div>
+        <div class="bubble" style="left: 20%; animation-duration: 12s; width: 60px; height: 60px;"></div>
+        <div class="bubble" style="left: 35%; animation-duration: 7s;"></div>
+        <div class="bubble" style="left: 50%; animation-duration: 15s; width: 80px; height: 80px;"></div>
+        <div class="bubble" style="left: 65%; animation-duration: 9s;"></div>
+        <div class="bubble" style="left: 80%; animation-duration: 11s; width: 50px; height: 50px;"></div>
+    </div>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR ---
+# --- 4. SIDEBAR ---
 with st.sidebar:
-    st.title("𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐀𝐈 🌸")
+    st.title("𝐄𝐦𝐨𝐨 𝐀𝐈 ")
     st.markdown("---")
-    st.subheader("Knowledge Center 🧠")
-    st.write("What do you want to learn from AI?😊")
-    st.selectbox("Select a Topic:", ["General Chat", "Study Help 📚", "Tech Support 💻", "Creative Writing ✍️"])
+    st.subheader("Knowledge Hub 🧠")
+    st.selectbox("Select Domain:", ["General Intelligence ☺️", "Study Companion 📚", "Tech & Coding 💻", "Creative Arts ✍️"])
+    
     st.markdown("---")
-    st.subheader("Feedback 📝")
-    st.text_area("Please tell us how you found this AI:")
-    if st.button("Submit Feedback"):
-        st.success("Thank you! 💖")
+    st.subheader("Feedback 📧")
+    st.markdown('<a href="mailto:sehrishmalik611@gmail.com" style="color: #64ffda; text-decoration: none; font-weight: bold;">Send Email to Sehrish Malik 📩</a>', unsafe_allow_html=True)
+    
     st.markdown("---")
-    st.caption("Designed with ❤️ by 𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐌𝐚𝐥𝐢𝐤 👻")
+    st.caption("Designed with ❤️ by 𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐌𝐚𝐥𝐢𝐤🦋")
 
-# --- CHAT HISTORY ---
+# --- 5. INITIALIZING CHAT HISTORY ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# --- MAIN HEADER ---
+# --- 6. MAIN HEADER ---
 if not st.session_state.messages:
-    st.title("𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐒𝐦𝐚𝐫𝐭 𝐀𝐈 🤖⚡")
-    st.info("👋☺ Hello! I am a smart AI designed by **Sehrish Malik**. I can help you with studies and chat. How can I assist you today?")
+    st.title("𝐄𝐦𝐨𝐨 𝐀𝐈 𝐀𝐠𝐞𝐧𝐭  ⚡ ")
+    st.info("👋 ☺ *Hello* ! I am 𝐄𝐦𝐨𝐨 , your intelligent companion designed by the talented *Sehrish* Malik  🦋.How can I assist you *today* ? 🌸")
 
-# --- DISPLAY MESSAGES ---
+# --- 7. DISPLAY CHAT MESSAGES ---
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# --- SMART AI LOGIC ---
-if prompt := st.chat_input("Ask me anything..."):
+# --- 8. AI AGENT LOGIC ---
+if prompt := st.chat_input("Ask Emoo anything..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -73,29 +117,25 @@ if prompt := st.chat_input("Ask me anything..."):
         
         user_query = prompt.lower()
         
-        # Identity Logic
         if any(word in user_query for word in ["who made you", "designed you", "creator", "owner", "who are you"]):
-            full_response = "I was designed and created by a very talented and cute girl, **Sehrish Malik 🦋**. She is a brilliant mind in AI development! ✨😘"
-        
-        # Smart Response Logic (Simulating ChatGPT)
-        elif any(word in user_query for word in ["help", "explain", "how", "what", "why", "study"]):
-            full_response = f"I am analyzing your request about '{prompt}'... 🧠 As your Smart Assistant, I can tell you that this is a very important topic. I can help you break it down into simple steps or provide a detailed explanation. What exactly would you like to know? 📚✨"
-        
-        elif any(word in user_query for word in ["hello", "hi", "hey"]):
-            full_response = "Hello! I'm your Smart AI Assistant. I'm ready to help you with anything you need today. What's on your mind? 😊✨"
-            
+            full_response = "I am *𝐄𝐦𝐨𝐨 AI*🤖, and I was created by a very cute and brilliant girl named *Sehrish Malik 🦋*. She is a rising star in the world of AI! ✨😘"
         else:
-            full_response = f"That's a very interesting question! 💡 Regarding '{prompt}', I'm always learning and improving. I can help you research this further or give you my best insights. Tell me more! 🚀🧠"
+            try:
+                personality_prompt = f"You are Emoo AI, a smart and friendly assistant created by Sehrish Malik. Answer this query in a helpful way with emojis: {prompt}"
+                response = model.generate_content(personality_prompt)
+                full_response = response.text
+            except Exception as e:
+                full_response = "I'm sorry, I encountered a small error. Please check your API key! 🛑"
 
-        # Typing Effect
         temp_resp = ""
         for word in full_response.split():
             temp_resp += word + " "
             response_placeholder.markdown(temp_resp + "▌")
-            time.sleep(0.05)
+            time.sleep(0.04)
         response_placeholder.markdown(full_response)
         
     st.session_state.messages.append({"role": "assistant", "content": full_response})
 
+# --- 9. FOOTER ---
 st.markdown("---")
-st.caption("© 2026 | 𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐌𝐚𝐥𝐢𝐤 𝐀𝐈 🦋| Smart & Elegant")
+st.caption("© 2026 | Emoo AI Agent | Handcrafted by 𝐒𝐞𝐡𝐫𝐢𝐬𝐡 𝐌𝐚𝐥𝐢𝐤 🦋")
