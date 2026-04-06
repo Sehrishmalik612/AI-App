@@ -4,38 +4,44 @@ import time
 # --- PAGE CONFIG (Professional & Clean) ---
 st.set_page_config(page_title="𝑺𝒆𝒉𝒓𝒊𝒔𝒉 𝑺𝒎𝒂𝒓𝒕 𝑨𝑰", page_icon="⚡", layout="wide")
 
-# --- CUSTOM CSS (Colorful & Readable) ---
-st.markdown("""
-    <style>
-    /* Main Background */
-    .stApp {
-        background: linear-gradient(to right, #f8f9fa, #e9ecef);
+# --- 𝑪𝑼𝑺𝑻𝑶𝑴 𝑪𝑺𝑺 (𝑩𝒍𝒂𝒄𝒌 𝑩𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅 & 𝑾𝒉𝒊𝒕𝒆 𝑻𝒆𝒙𝒕) ---
+𝒔𝒕.𝒎𝒂𝒓𝒌𝒅𝒐𝒘𝒏("""
+    <𝒔𝒕𝒚𝒍𝒆>
+    /* 𝑴𝒂𝒊𝒏 𝑩𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅 𝑩𝒍𝒂𝒄𝒌 */
+    .𝒔𝒕𝑨𝒑𝒑 {
+        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟎𝑬𝟏𝟏𝟏𝟕;
+        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭;
     }
-    /* Text Color */
-    .main .block-container {
-        color: #1a1a1a;
+    /* 𝑺𝒊𝒅𝒆𝒃𝒂𝒓 𝑫𝒂𝒓𝒌 */
+    [𝒅𝒂𝒕𝒂-𝒕𝒆𝒔𝒕𝒊𝒅="𝒔𝒕𝑺𝒊𝒅𝒆𝒃𝒂𝒓"] {
+        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟏𝑨𝟏𝑪𝟐𝟒;
+        𝒃𝒐𝒓𝒅𝒆𝒓-𝒓𝒊𝒈𝒉𝒕: 𝟐𝒑𝒙 𝒔𝒐𝒍𝒊𝒅 #𝒇𝒇𝟒𝒃𝟒𝒃;
     }
-    /* Chat Bubbles */
-    .stChatMessage {
-        background-color: #ffffff !important;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-        color: #333 !important;
+    /* 𝑪𝒉𝒂𝒕 𝑩𝒖𝒃𝒃𝒍𝒆𝒔 𝑺𝒕𝒚𝒍𝒊𝒏𝒈 */
+    .𝒔𝒕𝑪𝒉𝒂𝒕𝑴𝒆𝒔𝒔𝒂𝒈𝒆 {
+        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟐𝟔𝟐𝟕𝟑𝟎 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
+        𝒃𝒐𝒓𝒅𝒆𝒓-𝒓𝒂𝒅𝒊𝒖𝒔: 𝟏𝟓𝒑𝒙;
+        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
+        𝒎𝒂𝒓𝒈𝒊𝒏-𝒃𝒐𝒕𝒕𝒐𝒎: 𝟏𝟎𝒑𝒙;
+        𝒃𝒐𝒓𝒅𝒆𝒓: 𝟏𝒑𝒙 𝒔𝒐𝒍𝒊𝒅 #𝟑𝟑𝟑;
     }
-    /* Sidebar */
-    [data-testid="stSidebar"] {
-        background-color: #ffffff;
-        border-right: 2px solid #ff4b4b;
+    /* 𝑰𝒏𝒑𝒖𝒕 𝑩𝒂𝒓 */
+    .𝒔𝒕𝑪𝒉𝒂𝒕𝑰𝒏𝒑𝒖𝒕𝑪𝒐𝒏𝒕𝒂𝒊𝒏𝒆𝒓 {
+        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟏𝑨𝟏𝑪𝟐𝟒 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
     }
-    /* Header Title */
-    h1 {
-        color: #ff4b4b !important;
-        font-family: 'Trebuchet MS', sans-serif;
+    /* 𝑯𝒆𝒂𝒅𝒆𝒓𝒔 & 𝑻𝒆𝒙𝒕 */
+    𝒉𝟏, 𝒉𝟐, 𝒉𝟑, 𝒑, 𝒔𝒑𝒂𝒏, 𝒍𝒂𝒃𝒆𝒍 {
+        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
     }
-    </style>
-    """, unsafe_allow_html=True)
-
+    /* 𝑺𝒖𝒄𝒄𝒆𝒔𝒔/𝑰𝒏𝒇𝒐 𝑩𝒐𝒙𝒆𝒔 */
+    .𝒔𝒕𝑨𝒍𝒆𝒓𝒕 {
+        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟐𝟔𝟐𝟕𝟑𝟎 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
+        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
+        𝒃𝒐𝒓𝒅𝒆𝒓: 𝟏𝒑𝒙 𝒔𝒐𝒍𝒊𝒅 #𝒇𝒇𝟒𝒃𝟒𝒃;
+    }
+    </𝒔𝒕𝒚𝒍𝒆>
+    """, 𝒖𝒏𝒔𝒂𝒇𝒆_𝒂𝒍𝒍𝒐𝒘_𝒉𝒕𝒎𝒍=𝑻𝒓𝒖𝒆)
+    
 # --- SIDEBAR (The 3 lines menu) ---
 with st.sidebar:
     st.title("𝑺𝒆𝒉𝒓𝒊𝒔𝒉 𝑺𝒎𝒂𝒓𝒕 𝑨𝑰 🤖🔥")
