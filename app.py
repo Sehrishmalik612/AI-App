@@ -4,44 +4,44 @@ import time
 # --- PAGE CONFIG (Professional & Clean) ---
 st.set_page_config(page_title="𝑺𝒆𝒉𝒓𝒊𝒔𝒉 𝑺𝒎𝒂𝒓𝒕 𝑨𝑰", page_icon="⚡", layout="wide")
 
-# --- 𝑪𝑼𝑺𝑻𝑶𝑴 𝑪𝑺𝑺 (𝑩𝒍𝒂𝒄𝒌 𝑩𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅 & 𝑾𝒉𝒊𝒕𝒆 𝑻𝒆𝒙𝒕) ---
-𝒔𝒕.𝒎𝒂𝒓𝒌𝒅𝒐𝒘𝒏("""
-    <𝒔𝒕𝒚𝒍𝒆>
-    /* 𝑴𝒂𝒊𝒏 𝑩𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅 𝑩𝒍𝒂𝒄𝒌 */
-    .𝒔𝒕𝑨𝒑𝒑 {
-        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟎𝑬𝟏𝟏𝟏𝟕;
-        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭;
+# --- CUSTOM CSS (Black Background & White Text) ---
+st.markdown("""
+    <style>
+    /* Main Background Black */
+    .stApp {
+        background-color: #0E1117;
+        color: #FFFFFF;
     }
-    /* 𝑺𝒊𝒅𝒆𝒃𝒂𝒓 𝑫𝒂𝒓𝒌 */
-    [𝒅𝒂𝒕𝒂-𝒕𝒆𝒔𝒕𝒊𝒅="𝒔𝒕𝑺𝒊𝒅𝒆𝒃𝒂𝒓"] {
-        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟏𝑨𝟏𝑪𝟐𝟒;
-        𝒃𝒐𝒓𝒅𝒆𝒓-𝒓𝒊𝒈𝒉𝒕: 𝟐𝒑𝒙 𝒔𝒐𝒍𝒊𝒅 #𝒇𝒇𝟒𝒃𝟒𝒃;
+    /* Sidebar Dark */
+    [data-testid="stSidebar"] {
+        background-color: #1A1C24;
+        border-right: 2px solid #ff4b4b;
     }
-    /* 𝑪𝒉𝒂𝒕 𝑩𝒖𝒃𝒃𝒍𝒆𝒔 𝑺𝒕𝒚𝒍𝒊𝒏𝒈 */
-    .𝒔𝒕𝑪𝒉𝒂𝒕𝑴𝒆𝒔𝒔𝒂𝒈𝒆 {
-        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟐𝟔𝟐𝟕𝟑𝟎 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
-        𝒃𝒐𝒓𝒅𝒆𝒓-𝒓𝒂𝒅𝒊𝒖𝒔: 𝟏𝟓𝒑𝒙;
-        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
-        𝒎𝒂𝒓𝒈𝒊𝒏-𝒃𝒐𝒕𝒕𝒐𝒎: 𝟏𝟎𝒑𝒙;
-        𝒃𝒐𝒓𝒅𝒆𝒓: 𝟏𝒑𝒙 𝒔𝒐𝒍𝒊𝒅 #𝟑𝟑𝟑;
+    /* Chat Bubbles Styling */
+    .stChatMessage {
+        background-color: #262730 !important;
+        border-radius: 15px;
+        color: #FFFFFF !important;
+        margin-bottom: 10px;
+        border: 1px solid #333;
     }
-    /* 𝑰𝒏𝒑𝒖𝒕 𝑩𝒂𝒓 */
-    .𝒔𝒕𝑪𝒉𝒂𝒕𝑰𝒏𝒑𝒖𝒕𝑪𝒐𝒏𝒕𝒂𝒊𝒏𝒆𝒓 {
-        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟏𝑨𝟏𝑪𝟐𝟒 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
+    /* Input Bar */
+    .stChatInputContainer {
+        background-color: #1A1C24 !important;
     }
-    /* 𝑯𝒆𝒂𝒅𝒆𝒓𝒔 & 𝑻𝒆𝒙𝒕 */
-    𝒉𝟏, 𝒉𝟐, 𝒉𝟑, 𝒑, 𝒔𝒑𝒂𝒏, 𝒍𝒂𝒃𝒆𝒍 {
-        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
+    /* Headers & Text */
+    h1, h2, h3, p, span, label {
+        color: #FFFFFF !important;
     }
-    /* 𝑺𝒖𝒄𝒄𝒆𝒔𝒔/𝑰𝒏𝒇𝒐 𝑩𝒐𝒙𝒆𝒔 */
-    .𝒔𝒕𝑨𝒍𝒆𝒓𝒕 {
-        𝒃𝒂𝒄𝒌𝒈𝒓𝒐𝒖𝒏𝒅-𝒄𝒐𝒍𝒐𝒓: #𝟐𝟔𝟐𝟕𝟑𝟎 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
-        𝒄𝒐𝒍𝒐𝒓: #𝑭𝑭𝑭𝑭𝑭𝑭 !𝒊𝒎𝒑𝒐𝒓𝒕𝒂𝒏𝒕;
-        𝒃𝒐𝒓𝒅𝒆𝒓: 𝟏𝒑𝒙 𝒔𝒐𝒍𝒊𝒅 #𝒇𝒇𝟒𝒃𝟒𝒃;
+    /* Success/Info Boxes */
+    .stAlert {
+        background-color: #262730 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #ff4b4b;
     }
-    </𝒔𝒕𝒚𝒍𝒆>
-    """, 𝒖𝒏𝒔𝒂𝒇𝒆_𝒂𝒍𝒍𝒐𝒘_𝒉𝒕𝒎𝒍=𝑻𝒓𝒖𝒆)
-    
+    </style>
+    """, unsafe_allow_html=True)
+
 # --- SIDEBAR (The 3 lines menu) ---
 with st.sidebar:
     st.title("𝑺𝒆𝒉𝒓𝒊𝒔𝒉 𝑺𝒎𝒂𝒓𝒕 𝑨𝑰 🤖🔥")
