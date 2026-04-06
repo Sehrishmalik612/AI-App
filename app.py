@@ -3,7 +3,7 @@ import streamlit as st
 import time
 
 # Page Config (This makes it look professional)
-st.set_page_config(page_title="My AI Companion", page_icon="🤖", layout="centered")
+st.set_page_config(page_title="Sehrish Smart AI ✨", page_icon="🤖", layout="centered")
 
 # Custom Styling
 st.markdown("""
