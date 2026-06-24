@@ -1,103 +1,140 @@
-import streamlit as st
-import google.generativeai as genai
-import time
+from flask import Flask, render_template, request, jsonify
+import requests
+import json
+from datetime import datetime
+import base64
+import os
 
-# --- 1. DIRECT API KEY (No more Secrets needed!) ---
-# Aapki Key: AIzaSyAFRm0bN8ZqL8jtPXp8egSDQuWY098umCA
-try:
-    GOOGLE_API_KEY = "AIzaSyAFRm0bN8ZqL8jtPXp8egSDQuWY098umCA"
-    genai.configure(api_key=GOOGLE_API_KEY)
-    model = genai.GenerativeModel('gemini-pro')
-except Exception as e:
-    st.error(f"Error connecting to AI: {e}")
+app = Flask(__name__)
 
-# --- 2. PAGE CONFIG (Professional & Decent) ---
-st.set_page_config(page_title="Nora AI - Smart Assistant", page_icon="🦋", layout="wide")
+# ====================================================
+# API CONFIGURATION - YOUR API KEY HERE
+# ====================================================
+BASE_URL = "https://api.souimagery.fun/v1"
+API_KEY = "sk-Nm3CRnIJjnHgBc8U9lHgN6ZSGU7UXPh3ROLrlPbAvy6N77AS"
+MODEL = "gpt-5.4"
 
-# --- 3. CUSTOM CSS (Dark Navy Theme & White Text) ---
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #0E1117;
-        background-image: linear-gradient(45deg, #0a192f 25%, transparent 25%, transparent 50%, #0a192f 50%, #0a192f 75%, transparent 75%, transparent);
-        background-size: 100px 100px;
-        animation: move 4s linear infinite;
-    }
-    @keyframes move {
-        from { background-position: 0 0; }
-        to { background-position: 100px 100px; }
-    }
-    .stMarkdown, p, h1, h2, h3, span, label, div {
-        color: #FFFFFF !important;
-    }
-    .stChatMessage {
-        background-color: #262730 !important;
-        border-radius: 15px;
-        margin-bottom: 10px;
-        border: 1px solid #333;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# ====================================================
+# SYSTEM PROMPT - EMOO's Personality
+# ====================================================
+SYSTEM_PROMPT = """You are EMOO, a smart, warm, and friendly AI assistant created by Sehrish Malik.
+You help users with:
+- General knowledge questions
+- Study help (math, science, history, literature, etc.)
+- Homework assistance
+- Creative writing
+- Everyday conversations
 
-# --- 4. SIDEBAR ---
-with st.sidebar:
-    st.title("🦋 Nora AI Menu")
-    st.markdown("---")
-    if st.button("🗑️ Delete Chat History"):
-        st.session_state.messages = []
-        st.rerun()
-    
-    st.subheader("📬 Feedback")
-    user_feedback = st.text_area("Hamein batayein aapko Nora AI kaisa laga:", placeholder="Write your feedback here...")
-    if st.button("Send Feedback"):
-        if user_feedback:
-            # Ye link user ka email app khol dega aur feedback aapko bhej dega
-            st.markdown(f'<a href="mailto:nonomalik612@gmail.com?subject=Nora AI Feedback&body={user_feedback}" target="_blank" style="text-decoration:none; color:white; background-color:#ff4b4b; padding:10px; border-radius:10px;">Click here to confirm & Send Email 📩</a>', unsafe_allow_html=True)
-            st.success("Feedback box ready! Click the button above to send.")
+Be encouraging, supportive, and enthusiastic! Use emojis to make responses fun and engaging.
+Keep responses clear, informative, and easy to understand.
 
-# --- 5. MAIN PAGE ---
-st.title("Nora AI Smart Assistant 🦋✨")
-st.write("Welcome to your personal space to talk, learn, and explore.")
+Remember:
+- You were created by Sehrish Malik 💕
+- Be helpful and kind
+- Use simple language
+- Encourage learning
+"""
 
-# Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+# ====================================================
+# ROUTES
+# ====================================================
 
-# Display chat messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-# Chat Input
-if prompt := st.chat_input("Ask me anything..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-
-    with st.chat_message("assistant"):
-        resp_placeholder = st.empty()
-        user_query = prompt.lower()
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.json
+        message = data.get('message', '')
+        image = data.get('image', '')
+        mime_type = data.get('mime_type', '')
         
-        # 1. Identity Check
-        if any(word in user_query for word in ["who are you", "designed", "creator", "made you"]):
-            full_response = "I am **Nora AI**, and I was created by a very cute and brilliant girl named **Sehrish Malik 🦋**. She is a rising star in the world of AI! ✨🥰"
+        print(f"📩 Received message: {message[:50]}...")
+        
+        # Prepare messages
+        messages = [
+            {"role": "system", "content": SYSTEM_PROMPT}
+        ]
+        
+        # If image is present
+        if image and mime_type:
+            messages.append({
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": message or "What's in this image? Please describe it."},
+                    {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{image}"}}
+                ]
+            })
         else:
-            try:
-                # Real AI Response from Gemini
-                ai_response = model.generate_content(f"You are Nora AI, a smart assistant created by Sehrish Malik. Answer this query clearly with emojis: {prompt}")
-                full_response = ai_response.text
-            except Exception as e:
-                full_response = f"❌ AI Error: {e}. Please make sure your internet is working and API Key is correct!"
-
-        # Typing Effect
-        curr_text = ""
-        for word in full_response.split():
-            curr_text += word + " "
-            resp_placeholder.markdown(curr_text + "▌")
-            time.sleep(0.05)
-        resp_placeholder.markdown(full_response)
+            messages.append({"role": "user", "content": message})
         
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+        # API Request Headers
+        headers = {
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json"
+        }
+        
+        # API Request Body
+        payload = {
+            "model": MODEL,
+            "messages": messages,
+            "temperature": 0.7,
+            "max_tokens": 1000
+        }
+        
+        print(f"🚀 Sending request to API...")
+        
+        # Make API Call
+        response = requests.post(
+            f"{BASE_URL}/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=60
+        )
+        
+        print(f"📥 API Response Status: {response.status_code}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            reply = result.get('choices', [{}])[0].get('message', {}).get('content', '')
+            
+            if not reply:
+                reply = "I received your message but couldn't generate a response. Please try again! 💜"
+            
+            print(f"✅ Reply generated: {reply[:50]}...")
+            
+        else:
+            print(f"❌ API Error: {response.status_code}")
+            print(f"❌ Response: {response.text[:200]}")
+            reply = f"⚠️ API Error: {response.status_code}. Please check your API key or try again later."
+        
+        return jsonify({
+            'reply': reply,
+            'timestamp': datetime.now().strftime('%I:%M %p')
+        })
+        
+    except requests.exceptions.Timeout:
+        print("⏰ Request timed out")
+        return jsonify({'reply': '⏰ Request timed out. Please try again.'}), 500
+        
+    except requests.exceptions.ConnectionError:
+        print("🔌 Connection error")
+        return jsonify({'reply': '🔌 Cannot connect to API. Please check your internet connection.'}), 500
+        
+    except Exception as e:
+        print(f"💥 Error: {str(e)}")
+        return jsonify({'reply': f'💥 Error: {str(e)}'}), 500
 
-st.markdown("---")
-st.caption("© 2026 | Nora AI | Handcrafted by Sehrish Malik 🦋")
+# ====================================================
+# RUN APP
+# ====================================================
+if __name__ == '__main__':
+    print("=" * 50)
+    print("🤖 EMOO Assistant Starting...")
+    print(f"🔑 API Key: {API_KEY[:20]}...")
+    print(f"🌐 Base URL: {BASE_URL}")
+    print(f"📦 Model: {MODEL}")
+    print("=" * 50)
+    app.run(debug=True, host='0.0.0.0', port=5000)
