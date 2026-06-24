@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>EMOO - Smart Assistant</title>
+  <link rel="icon" href="emoo.png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ===== ANIMATED BACKGROUND ===== -->
+  <div class="app-bg" aria-hidden="true">
+    <div class="bubble b1"></div>
+    <div class="bubble b2"></div>
+    <div class="bubble b3"></div>
+    <div class="bubble b4"></div>
+    <div class="bubble b5"></div>
+    <div class="bubble b6"></div>
+    <div class="bubble b7"></div>
+    <div class="bubble b8"></div>
+    <div class="bubble b9"></div>
+    <div class="bubble b10"></div>
+    <div class="bubble b11"></div>
+    <div class="star s1">✦</div>
+    <div class="star s2">✧</div>
+    <div class="star s3">★</div>
+    <div class="star s4">✦</div>
+    <div class="star s5">✧</div>
+    <div class="star s6">✦</div>
+    <div class="star s7">✧</div>
+    <div class="star s8">★</div>
+    <div class="star s9">✦</div>
+    <div class="star s10">✧</div>
+    <div class="float-heart h1">🎀</div>
+    <div class="float-heart h2">💖</div>
+    <div class="float-heart h3">🦋</div>
+    <div class="float-heart h4">✨</div>
+    <div class="float-heart h5">💕</div>
+    <div class="float-heart h6">💖</div>
+    <div class="float-heart h7">🎀</div>
+    <div class="float-heart h8">✨</div>
+     <div class="float-heart h9">🐾</div>
+    <div class="float-heart h10">💖</div>
+    <div class="float-heart h11">🦋</div>
+    <div class="float-heart h12">✨</div>
+    <div class="float-heart h13">💕</div>
+    <div class="float-heart h14">💖</div>
+    <div class="float-heart h15">🎀</div>
+    <div class="float-heart h16">✨</div>
+  </div>
+
+  <!-- ===== SHINING MIRACULOUS OVERLAY ===== -->
+  <div class="shining-overlay" id="shiningOverlay"></div>
+
+  <div class="app">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="logo-box">
+          <img src="emoo.png" alt="EMOO logo" class="logo-img" />
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-panel="chat">
+            <span class="nav-icon">💬</span>
+            <span>Chat</span>
+          </button>
+          <button class="nav-item" data-panel="history">
+            <span class="nav-icon">📜</span>
+            <span>History</span>
+          </button>
+          <button class="nav-item" data-panel="study">
+            <span class="nav-icon">📚</span>
+            <span>Study</span>
+          </button>
+          <button class="nav-item" data-panel="delete">
+            <span class="nav-icon">🗑️</span>
+            <span>Delete History</span>
+          </button>
+          <button class="nav-item" data-panel="settings">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </button>
+          <button class="nav-item" data-panel="theme">
+            <span class="nav-icon">🎨</span>
+            <span>Theme</span>
+          </button>
+          <button class="nav-item" data-panel="about">
+            <span class="nav-icon">💜</span>
+            <span>About <span class="emoo-brand">EMOO</span></span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-art">
+        <img src="emoo.png" alt="" class="sidebar-art-img" aria-hidden="true" />
+      </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+          <div class="emoo-avatar small">
+            <img src="emoo.png" alt="EMOO" />
+          </div>
+          <div class="topbar-info">
+            <h1><span class="emoo-brand">EMOO</span> <span class="heart">💜</span></h1>
+            <p class="subtitle">Smart Assistant</p>
+            <p class="online-status"><span class="online-dot"></span> Online</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="datetime-box">
+            <span class="time" id="liveTime">--:--:--</span>
+            <span class="date" id="liveDate">--</span>
+          </div>
+          <button class="icon-btn" id="searchBtn" title="Search">🔍</button>
+          <button class="icon-btn" id="notifyBtn" title="Notifications">🔔</button>
+          <button class="icon-btn" id="moreBtn" title="Settings">⋮</button>
+        </div>
+      </header>
+
+      <!-- ===== VIEW: CHAT ===== -->
+      <section class="view active" id="viewChat">
+        <div class="chat-area">
+          <div class="messages" id="messages">
+            <div class="msg-row ai">
+              <div class="msg-avatar">
+                <img src="emoo.png" alt="EMOO" />
+              </div>
+              <div class="bubble-wrap">
+                <div class="msg-bubble ai-bubble">
+                  <p>Hi! I'm <span class="emoo-brand">EMOO</span> 💜 Your smart &amp; friendly assistant. How can I help you today? ✨</p>
+                  <div class="msg-meta">
+                    <span class="msg-time">Just now</span>
+                    <button class="save-btn" title="Save message" data-msg="Hi! I'm EMOO 💜 Your smart &amp; friendly assistant. How can I help you today? ✨">🔖</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="thinking hidden" id="thinking">
+            <div class="msg-avatar">
+              <img src="emoo.png" alt="EMOO" />
+            </div>
+            <div class="msg-bubble ai-bubble thinking-bubble">
+              <span class="emoo-brand">EMOO</span> is thinking<span class="dots"><span>.</span><span>.</span><span>.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-bar">
+          <button class="input-icon" id="emojiBtn" title="Emoji">😊</button>
+          <input type="text" id="messageInput" placeholder="Type your message..." autocomplete="off" />
+          <input type="file" id="imageInput" accept="image/*" hidden />
+          <button class="input-icon" id="attachBtn" title="Upload picture">📎</button>
+          <button class="send-btn" id="sendBtn">
+            <span>Send</span>
+            <span class="send-heart">💜</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: HISTORY ===== -->
+      <section class="view panel-view" id="viewHistory">
+        <div class="panel-card">
+          <h2>📜 Chat History</h2>
+          <p>Tap any message to open it in chat.</p>
+          <ul class="history-list" id="historyList"></ul>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: STUDY ===== -->
+      <section class="view panel-view" id="viewStudy">
+        <div class="panel-card">
+          <h2>📚 Study Mode</h2>
+          <p>Pick a topic — <span class="emoo-brand">EMOO</span> will guide you step by step!</p>
+          <div class="study-topics">
+            <!-- NEW: General Knowledge added -->
+            <button class="chip" data-prompt="Tell me interesting general knowledge facts" data-greeting="🧠 General Knowledge mode activated! Let's explore amazing facts together!">🌍 General Knowledge</button>
+            <button class="chip" data-prompt="Explain photosynthesis in simple words" data-greeting="Yay, science time! 🌿 Let's learn about photosynthesis together — I'll make it super easy for you!">🌿 Photosynthesis</button>
+            <button class="chip" data-prompt="Quiz me on basic math" data-greeting="Math buddy mode ON! 🔢 Ready for a fun quiz? Don't worry, I'll cheer you on! 💪">🔢 Math Quiz</button>
+            <button class="chip" data-prompt="Help me write an essay outline" data-greeting="Essay time! ✍️ I'll help you structure your ideas beautifully — let's start!">✍️ Essay Help</button>
+            <button class="chip" data-prompt="Explain chemical reactions simply" data-greeting="Chemistry magic! ⚗️ Molecules and reactions — I'll explain everything clearly!">⚗️ Chemistry</button>
+            <button class="chip" data-prompt="Explain Newton's laws of motion" data-greeting="Physics power! 🚀 Let's explore how things move — Newton's laws made easy!">🚀 Physics</button>
+            <button class="chip" data-prompt="Explain cell structure and functions" data-greeting="Biology buddy here! 🧬 Cells are amazing — let's discover them together!">🧬 Biology</button>
+            <button class="chip" data-prompt="Summarize World War 2 key events" data-greeting="History time! 📜 I'll walk you through the important events clearly!">📜 History</button>
+            <button class="chip" data-prompt="Help me with English grammar rules" data-greeting="Grammar glow-up! 📖 Let's polish your English — I'll keep it simple &amp; fun!">📖 English</button>
+            <button class="chip" data-prompt="Teach me algebra with examples" data-greeting="Algebra adventure! ➗ X and Y won't scare you anymore — promise! ✨">➗ Algebra</button>
+            <button class="chip" data-prompt="Explain geometry shapes and formulas" data-greeting="Shape explorer! 📐 Triangles, circles, angles — let's master geometry!">📐 Geometry</button>
+            <button class="chip" data-prompt="Give me exam preparation tips" data-greeting="Exam hero mode! 📝 You've got this — I'll share the best study tips! 💜">📝 Exam Prep</button>
+            <button class="chip" data-prompt="Help me with a science fair project idea" data-greeting="Science fair star! 🔬 Let's brainstorm an awesome project idea!">🔬 Science Fair</button>
+            <button class="chip" data-prompt="Explain computer science fundamentals" data-greeting="CS champion! 🖥️ Algorithms, data, logic — I'll break it all down for you!">🖥️ Computer Science</button>
+            <button class="chip" data-prompt="Help me understand Urdu poetry basics" data-greeting="Urdu poetry vibes! 🌙 Such beautiful words — let's explore together!">🌙 Urdu Poetry</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: DELETE ===== -->
+      <section class="view panel-view" id="viewDelete">
+        <div class="panel-card center">
+          <h2>🗑️ Delete History</h2>
+          <p>This will permanently remove all your chat messages and saved replies.</p>
+          <button class="danger-btn" id="clearHistoryBtn">Clear All History</button>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: SETTINGS ===== -->
+      <section class="view panel-view" id="viewSettings">
+        <div class="panel-card">
+          <h2>⚙️ Settings</h2>
+          <label class="setting-row">
+            <span>Sound effects</span>
+            <input type="checkbox" id="soundToggle" checked />
+          </label>
+          <label class="setting-row">
+            <span>Auto-save <span class="emoo-brand">EMOO</span> replies</span>
+            <input type="checkbox" id="autoSaveToggle" />
+          </label>
+          <label class="setting-row">
+            <span>Show timestamps</span>
+            <input type="checkbox" id="timestampToggle" checked />
+          </label>
+          <label class="setting-row">
+            <span>Typing indicator</span>
+            <input type="checkbox" id="typingToggle" checked />
+          </label>
+          <label class="setting-row">
+            <span>Compact chat mode</span>
+            <input type="checkbox" id="compactToggle" />
+          </label>
+          <label class="setting-row">
+            <span>Desktop notifications</span>
+            <input type="checkbox" id="notifyToggle" />
+          </label>
+          <label class="setting-row">
+            <span>Message font size</span>
+            <select id="fontSizeSelect">
+              <option value="small">Small</option>
+              <option value="medium" selected>Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+          <label class="setting-row">
+            <span>Send on Enter</span>
+            <input type="checkbox" id="enterSendToggle" checked />
+          </label>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: THEME ===== -->
+      <section class="view panel-view" id="viewTheme">
+        <div class="panel-card">
+          <h2>🎨 Theme</h2>
+          <p>Choose your vibe — each theme has Shining Miraculous effect ✨</p>
+          <div class="theme-grid">
+            <button class="theme-btn active" data-theme="pink">🌸 Pink Dream</button>
+            <button class="theme-btn" data-theme="purple">🌙 Purple Night</button>
+            <button class="theme-btn" data-theme="mint">🍃 Mint Fresh</button>
+            <button class="theme-btn" data-theme="maroon">🍷 Royal Maroon</button>
+            <button class="theme-btn" data-theme="black">🖤 Midnight Black</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW: ABOUT ===== -->
+      <section class="view panel-view" id="viewAbout">
+        <div class="panel-card center about-card">
+          <div class="about-logo">
+            <img src="emoo.png" alt="EMOO" class="about-img" />
+          </div>
+          <h2>About <span class="emoo-brand">EMOO</span> 💜</h2>
+          <p class="about-lead"><span class="emoo-brand">EMOO</span> is your intelligent AI companion — designed for study, conversation, homework help, and creative thinking.</p>
+          <div class="about-features">
+            <span>💬 Smart Chat</span>
+            <span>📚 Study Mode</span>
+            <span>📎 Picture Upload</span>
+            <span>🎨 5 Themes</span>
+            <span>📜 History</span>
+            <span>🔖 Save Messages</span>
+          </div>
+          <div class="about-creator">
+            <h3>Created with love by</h3>
+            <p class="creator-name">Sehrish Malik 💕</p>
+            <p class="creator-desc">An intelligent, creative &amp; wonderfully innocent mind who built <span class="emoo-brand">EMOO</span> with passion, precision, and a beautiful vision.</p>
+          </div>
+          <p class="about-tech">Powered by Gemini AI · Built with HTML, CSS, JavaScript &amp; Python</p>
+          <p class="version">Version 2.0 · © 2026 Sehrish Malik</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===== EMOJI PICKER ===== -->
+  <div class="emoji-picker hidden" id="emojiPicker">
+    <button>😊</button><button>😍</button><button>🥰</button><button>✨</button>
+    <button>💜</button><button>💖</button><button>🌸</button><button>🎀</button>
+    <button>😂</button><button>🤔</button><button>👍</button><button>🙏</button>
+    <button>📚</button><button>💻</button><button>🎉</button><button>🥺</button>
+    <button>👻</button><button>🌼</button><button>🎀</button>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
